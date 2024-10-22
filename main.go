@@ -1,11 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/Vikuuu/gator/internal/config"
 )
+
+type state struct {
+	Config *config.Config
+}
 
 func main() {
 	cfg, err := config.Read()
@@ -13,22 +18,24 @@ func main() {
 		log.Fatalf("error reading config: %v", err)
 	}
 
-	st := &state{
+	programState := &state{
 		Config: &cfg,
 	}
+
 	cmds := &commands{
-		Command: make(map[string]func(*state, command) error),
+		registeredCommands: make(map[string]func(*state, command) error),
 	}
 	cmds.register("login", handlerLogin)
 
-	args := os.Args
-	if len(args) < 2 {
-		log.Fatal("error, arguments is less than 2")
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: cli <command> [args...]")
 		return
 	}
 
-	cmd := command{Name: args[1], Argument: args[2:]}
-	err = cmds.run(st, cmd)
+	cmdName := os.Args[1]
+	cmdArgs := os.Args[2:]
+
+	err = cmds.run(programState, command{Name: cmdName, Args: cmdArgs})
 	if err != nil {
 		log.Fatal(err)
 	}
