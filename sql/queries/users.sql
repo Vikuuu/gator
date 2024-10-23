@@ -9,7 +9,7 @@ VALUES (
 RETURNING *;
 
 -- name: GetUser :one
-SELECT name FROM users WHERE name = $1;
+SELECT id, name, created_at, updated_at FROM users WHERE name = $1;
 
 -- name: DeleteUserData :exec
 DELETE FROM users;
