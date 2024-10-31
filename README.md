@@ -48,6 +48,9 @@ Gator is a multi-user CLI application. There's no server(other than the database
 ```
 For this you should have **PostgreSQL** installed.
 
+> [!NOTE]
+> You will have to create the database gator manually. Steps are shown [here](#installing-postgresql)
+
 ## Installing PostgreSQL
 
 1. Linux/WSL(Debian):
@@ -78,9 +81,39 @@ You should see a new prompt that looks like this:
 postgres=#
 ```
 
+6. Now create the `gator` database in your postgresql
+```bash
+postgres=# CREATE DATABASE gator;
+```
+
+7. You can move to your database by using:
+```bash
+postgres=# \c gator
+```
+
+8. Check the table in the gator database.
+```bash
+postgres=# \dt
+```
+
 ## Using the CLI
 
-You can run the command `help` to get the information:
+- You can register a user by following command:
+```bash
+gator register <name>
+```
+
+- You can login a user by following command:
+```bash
+gator login <username>
+```
+
+- You can add feeds by following command:
+```bash
+gator addfeed <feedName> <feedURL>
+```
+
+You can run the command `help` to get the information on all the available commands:
 ```bash
 gator help
 ```
