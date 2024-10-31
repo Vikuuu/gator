@@ -10,7 +10,8 @@ import (
 )
 
 // Embed the migrations
-// go:embed sql/schema/*.sql
+//
+//go:embed sql/schema/*.sql
 var migrations embed.FS
 
 func applyMigrations(db *sql.DB) error {
@@ -22,7 +23,7 @@ func applyMigrations(db *sql.DB) error {
 	}
 
 	// Run migrations
-	if err := goose.Up(db, "sql/schema/"); err != nil {
+	if err := goose.Up(db, "sql/schema"); err != nil {
 		return fmt.Errorf("error applying migrations: %w", err)
 	}
 
